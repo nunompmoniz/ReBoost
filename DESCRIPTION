@@ -1,0 +1,11 @@
+Package: ReBoost
+Type: Package
+Title: Boosting by Resampling Approaches for Imbalanced Numerical Prediction Tasks
+Version: 0.1.0
+Authors@R: person("Nuno", "Moniz", email = "nmmoniz@inesctec.pt", role = c("aut", "cre"))
+Maintainer: Nuno Moniz <nmmoniz@inesctec.pt>
+Description: More about what it does (maybe more than one line)
+    Use four spaces when indenting paragraphs within the Description.
+License: GPL (>=2)
+Encoding: UTF-8
+LazyData: true
