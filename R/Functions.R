@@ -1,7 +1,28 @@
-#'
 #' AdaBoost.R2
 #'
-
+#' @references
+#'
+#' @param form The model formula.
+#' @param train A data.frame with the training data.
+#' @param test A data.frame with the test data.
+#' @param t_final The number of maximum boosting iterations. Default is 100.
+#' @param power Type of loss function, e.g. linear (1), squared (2). Default is 2.
+#' @param ... Dots are passed to rpart
+#'
+#' @return Returns a vector with the predictions made by AdaBoost.R2.
+#' @export
+#'
+#' @examples
+#' data(Boston,package="MASS")
+#'
+#' idx <- sample(1:nrow(Boston),nrow(Boston)*0.75)
+#' form <- medv ~ .
+#'
+#' train <- Boston[idx,]
+#' test <- Boston[-idx,]
+#'
+#' preds <- AdaBoost.R2(form,train,test)
+#'
 AdaBoost.R2 <- function(form,train,test,t_final=100,power=2,...) {
 
   require(spatstat)
@@ -62,9 +83,33 @@ AdaBoost.R2 <- function(form,train,test,t_final=100,power=2,...) {
 }
 
 #'
-#' SMOTEd AdaBoost.R2
+#' SMOTEBoost variant of AdaBoost.R2
 #'
-
+#' @param form The model formula.
+#' @param train A data.frame with the training data.
+#' @param test A data.frame with the test data.
+#' @param t_final The number of maximum boosting iterations. Default is 100.
+#' @param power Type of loss function, e.g. linear (1), squared (2). Default is 2.
+#' @param perc.O Percentage for Oversampling via SMOTE, i.e. percentage of extreme cases to be generated. Default is 1.5.
+#' @param rel.thr Relevance threshold. Default is 0.9.
+#' @param k Number of neighbours used in SMOTE. Defaults to 3.
+#' @param coef Coefficient used in boxplot statistics, which is used to create the relevance function. Default is 1.5.
+#' @param ... Dots are passed to rpart
+#'
+#' @return Returns a vector with the predictions made by SMOTEBoost.R2.
+#' @export
+#'
+#' @examples
+#' data(Boston,package="MASS")
+#'
+#' idx <- sample(1:nrow(Boston),nrow(Boston)*0.75)
+#' form <- medv ~ .
+#'
+#' train <- Boston[idx,]
+#' test <- Boston[-idx,]
+#'
+#' preds <- SMOTEBoost.R2(form,train,test)
+#'
 SMOTEBoost.R2 <- function(form,train,test,t_final=100,power=2,perc.O=1.5,rel.thr=0.9,k=3,coef=1.5,...) {
 
   require(spatstat)
@@ -130,10 +175,30 @@ SMOTEBoost.R2 <- function(form,train,test,t_final=100,power=2,perc.O=1.5,rel.thr
 
 }
 
-#'
 #' AdaBoost.RQ
 #'
-
+#' @references
+#'
+#' @param form The model formula.
+#' @param train A data.frame with the training data.
+#' @param test A data.frame with the test data.
+#' @param t_final The number of maximum boosting iterations. Default is 100.
+#' @param power Type of loss function, e.g. linear (1), squared (2). Default is 2.
+#' @param ... Dots are passed to rpart
+#'
+#' @return Returns a vector with the predictions made by AdaBoost.RQ.
+#' @export
+#'
+#' @examples
+#' data(Boston,package="MASS")
+#'
+#' idx <- sample(1:nrow(Boston),nrow(Boston)*0.75)
+#' form <- medv ~ .
+#'
+#' train <- Boston[idx,]
+#' test <- Boston[-idx,]
+#'
+#' preds <- AdaBoost.RQ(form,train,test)
 AdaBoost.RQ <- function(form,train,test,t_final=100,power=2,...) {
 
   models <- list()
@@ -192,9 +257,33 @@ AdaBoost.RQ <- function(form,train,test,t_final=100,power=2,...) {
 }
 
 #'
-#' SMOTEd AdaBoost.RQ
+#' SMOTEBoost variant of AdaBoost.RQ
 #'
-
+#' @param form The model formula.
+#' @param train A data.frame with the training data.
+#' @param test A data.frame with the test data.
+#' @param t_final The number of maximum boosting iterations. Default is 100.
+#' @param power Type of loss function, e.g. linear (1), squared (2). Default is 2.
+#' @param perc.O Percentage for Oversampling via SMOTE, i.e. percentage of extreme cases to be generated. Default is 1.5.
+#' @param rel.thr Relevance threshold. Default is 0.9.
+#' @param k Number of neighbours used in SMOTE. Defaults to 3.
+#' @param coef Coefficient used in boxplot statistics, which is used to create the relevance function. Default is 1.5.
+#' @param ... Dots are passed to rpart
+#'
+#' @return Returns a vector with the predictions made by AdaBoost.RQ.
+#' @export
+#'
+#' @examples
+#' data(Boston,package="MASS")
+#'
+#' idx <- sample(1:nrow(Boston),nrow(Boston)*0.75)
+#' form <- medv ~ .
+#'
+#' train <- Boston[idx,]
+#' test <- Boston[-idx,]
+#'
+#' preds <- SMOTEBoost.RQ(form,train,test)
+#'
 SMOTEBoost.RQ <- function(form,train,test,t_final=100,power=2,perc.O=1.5,rel.thr=0.9,k=3,coef=1.5,...) {
 
   models <- list()
@@ -255,10 +344,31 @@ SMOTEBoost.RQ <- function(form,train,test,t_final=100,power=2,perc.O=1.5,rel.thr
 
 }
 
-#'
 #' AdaBoost.RT
 #'
-
+#' @references
+#'
+#' @param form The model formula.
+#' @param train A data.frame with the training data.
+#' @param test A data.frame with the test data.
+#' @param t_final The number of maximum boosting iterations. Default is 100.
+#' @param thr The error threshold. Default is 0.1.
+#' @param power Type of loss function, e.g. linear (1), squared (2). Default is 2.
+#' @param ... Dots are passed to rpart
+#'
+#' @return Returns a vector with the predictions made by AdaBoost.RT.
+#' @export
+#'
+#' @examples
+#' data(Boston,package="MASS")
+#'
+#' idx <- sample(1:nrow(Boston),nrow(Boston)*0.75)
+#' form <- medv ~ .
+#'
+#' train <- Boston[idx,]
+#' test <- Boston[-idx,]
+#'
+#' preds <- AdaBoost.RT(form,train,test)
 AdaBoost.RT <- function(form,train,test,t_final=100,thr=0.1,power=2,...) {
 
   models <- list()
@@ -312,9 +422,34 @@ AdaBoost.RT <- function(form,train,test,t_final=100,thr=0.1,power=2,...) {
 }
 
 #'
-#' SMOTEd AdaBoost.RT
+#' SMOTEBoost variant of AdaBoost.RT
 #'
-
+#' @param form The model formula.
+#' @param train A data.frame with the training data.
+#' @param test A data.frame with the test data.
+#' @param thr The error threshold. Default is 0.1.
+#' @param t_final The number of maximum boosting iterations. Default is 100.
+#' @param power Type of loss function, e.g. linear (1), squared (2). Default is 2.
+#' @param perc.O Percentage for Oversampling via SMOTE, i.e. percentage of extreme cases to be generated. Default is 1.5.
+#' @param rel.thr Relevance threshold. Default is 0.9.
+#' @param k Number of neighbours used in SMOTE. Defaults to 3.
+#' @param coef Coefficient used in boxplot statistics, which is used to create the relevance function. Default is 1.5.
+#' @param ... Dots are passed to rpart
+#'
+#' @return Returns a vector with the predictions made by SMOTEBoost.RT.
+#' @export
+#'
+#' @examples
+#' data(Boston,package="MASS")
+#'
+#' idx <- sample(1:nrow(Boston),nrow(Boston)*0.75)
+#' form <- medv ~ .
+#'
+#' train <- Boston[idx,]
+#' test <- Boston[-idx,]
+#'
+#' preds <- SMOTEBoost.RT(form,train,test)
+#'
 SMOTEBoost.RT <- function(form,train,test,t_final=100,thr=0.1,power=2,perc.O=1.5,rel.thr=0.9,k=3,coef=1.5,...) {
 
   nrow(train)
@@ -375,10 +510,32 @@ SMOTEBoost.RT <- function(form,train,test,t_final=100,thr=0.1,power=2,perc.O=1.5
 
 }
 
+#' AdaBoost.RTPlus
 #'
-#' AdaBoost.RT+
+#' @references
 #'
-
+#' @param form The model formula.
+#' @param train A data.frame with the training data.
+#' @param test A data.frame with the test data.
+#' @param t_final The number of maximum boosting iterations. Default is 100.
+#' @param thr The error threshold. Default is 0.01.
+#' @param power Type of loss function, e.g. linear (1), squared (2). Default is 2.
+#' @param sigma Regularization factor. Default is 0.5.
+#' @param ... Dots are passed to rpart
+#'
+#' @return Returns a vector with the predictions made by AdaBoost.RTPlus.
+#' @export
+#'
+#' @examples
+#' data(Boston,package="MASS")
+#'
+#' idx <- sample(1:nrow(Boston),nrow(Boston)*0.75)
+#' form <- medv ~ .
+#'
+#' train <- Boston[idx,]
+#' test <- Boston[-idx,]
+#'
+#' preds <- AdaBoost.RTPlus(form,train,test)
 AdaBoost.RTPlus <- function(form,train,test,t_final=100,thr=0.01,power=2,sigma=0.5,...) {
 
   require(MASS)
@@ -442,9 +599,35 @@ AdaBoost.RTPlus <- function(form,train,test,t_final=100,thr=0.01,power=2,sigma=0
 }
 
 #'
-#' SMOTEd AdaBoost.RT+
+#' SMOTEBoost variant of AdaBoost.RTPlus
 #'
-
+#' @param form The model formula.
+#' @param train A data.frame with the training data.
+#' @param test A data.frame with the test data.
+#' @param thr The error threshold. Default is 0.01.
+#' @param t_final The number of maximum boosting iterations. Default is 100.
+#' @param power Type of loss function, e.g. linear (1), squared (2). Default is 2.
+#' @param sigma Regularization factor. Default is 0.5.
+#' @param perc.O Percentage for Oversampling via SMOTE, i.e. percentage of extreme cases to be generated. Default is 1.5.
+#' @param rel.thr Relevance threshold. Default is 0.9.
+#' @param k Number of neighbours used in SMOTE. Defaults to 3.
+#' @param coef Coefficient used in boxplot statistics, which is used to create the relevance function. Default is 1.5.
+#' @param ... Dots are passed to rpart
+#'
+#' @return Returns a vector with the predictions made by SMOTEBoost.RTPlus.
+#' @export
+#'
+#' @examples
+#' data(Boston,package="MASS")
+#'
+#' idx <- sample(1:nrow(Boston),nrow(Boston)*0.75)
+#' form <- medv ~ .
+#'
+#' train <- Boston[idx,]
+#' test <- Boston[-idx,]
+#'
+#' preds <- SMOTEBoost.RTPlus(form,train,test)
+#'
 SMOTEBoost.RTPlus <- function(form,train,test,t_final=100,thr=0.01,power=2,sigma=0.5,perc.O=1.5,rel.thr=0.9,k=3,coef=1.5,...) {
 
   require(MASS)
@@ -513,10 +696,30 @@ SMOTEBoost.RTPlus <- function(form,train,test,t_final=100,thr=0.01,power=2,sigma
 
 }
 
-#'
 #' BEMBoost
 #'
-
+#' @references
+#'
+#' @param form The model formula.
+#' @param train A data.frame with the training data.
+#' @param test A data.frame with the test data.
+#' @param t_final The number of maximum boosting iterations. Default is 100.
+#' @param BEM Biggest error margin admissible. Defaults to 0.5.
+#' @param ... Dots are passed to rpart
+#'
+#' @return Returns a vector with the predictions made by BEMBoost.
+#' @export
+#'
+#' @examples
+#' data(Boston,package="MASS")
+#'
+#' idx <- sample(1:nrow(Boston),nrow(Boston)*0.75)
+#' form <- medv ~ .
+#'
+#' train <- Boston[idx,]
+#' test <- Boston[-idx,]
+#'
+#' preds <- BEMBoost(form,train,test)
 BEMBoost <- function(form,train,test,t_final=100,BEM=0.5,...) {
 
   models <- list()
@@ -590,9 +793,33 @@ BEMBoost <- function(form,train,test,t_final=100,BEM=0.5,...) {
 }
 
 #'
-#' SMOTEd BEMBoost
+#' SMOTEBoost variant of BEMBoost
 #'
-
+#' @param form The model formula.
+#' @param train A data.frame with the training data.
+#' @param test A data.frame with the test data.
+#' @param t_final The number of maximum boosting iterations. Default is 100.
+#' @param BEM Biggest error margin admissible. Defaults to 0.5.
+#' @param perc.O Percentage for Oversampling via SMOTE, i.e. percentage of extreme cases to be generated. Default is 1.5.
+#' @param rel.thr Relevance threshold. Default is 0.9.
+#' @param k Number of neighbours used in SMOTE. Defaults to 3.
+#' @param coef Coefficient used in boxplot statistics, which is used to create the relevance function. Default is 1.5.
+#' @param ... Dots are passed to rpart
+#'
+#' @return Returns a vector with the predictions made by SMOTEBoost.BEM.
+#' @export
+#'
+#' @examples
+#' data(Boston,package="MASS")
+#'
+#' idx <- sample(1:nrow(Boston),nrow(Boston)*0.75)
+#' form <- medv ~ .
+#'
+#' train <- Boston[idx,]
+#' test <- Boston[-idx,]
+#'
+#' preds <- SMOTEBoost.BEM(form,train,test)
+#'
 SMOTEBoost.BEM <- function(form,train,test,t_final=100,BEM=0.5,perc.O=1.5,rel.thr=0.9,k=3,coef=1.5,...) {
 
   models <- list()
