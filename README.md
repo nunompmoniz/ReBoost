@@ -6,7 +6,7 @@ An R Package with Boosting and SMOTEBoost implementations for Regression Tasks
 Data pre-processing methods such as resampling strategies are the most common approach to tackling imbalanced domain learning tasks.
 This package encompasses multiple resampling-based boosting strategies for the task of extreme value prediction/imbalanced regression.
 
-# References
+** References **
 
 - N Moniz, R Ribeiro, V Cerqueira, N Chawla (2018). "SMOTEBoost for Regression: Improving the Prediction of Extreme Values", Proceedings of the 2018 IEEE 5th International Conference on Data Science and Advanced Analytics.
 
