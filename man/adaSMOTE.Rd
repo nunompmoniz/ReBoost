@@ -2,9 +2,9 @@
 % Please edit documentation in R/Auxiliary.R
 \name{adaSMOTE}
 \alias{adaSMOTE}
-\title{Title}
+\title{Synthetic Minority Oversampling Technique}
 \usage{
-adaSMOTE(form, dat, perc.o, rel.thr, k, pc = NULL)
+adaSMOTE(form, dat, perc.o = 1.5, rel.thr, k, pc = NULL)
 }
 \arguments{
 \item{form}{The model formula.}
@@ -19,6 +19,9 @@ adaSMOTE(form, dat, perc.o, rel.thr, k, pc = NULL)
 
 \item{pc}{Relevance function phi.}
 }
+\value{
+Return a data frame with the data set results from the application of the SMOTE strategy
+}
 \description{
-Title
+Synthetic Minority Oversampling Technique
 }
