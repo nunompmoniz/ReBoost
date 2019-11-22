@@ -1,4 +1,35 @@
-adaSMOTE <- function(form,dat,perc.o,rel.thr,k,pc=NULL) {
+#' Title
+#'
+#' @param form The model formula.
+#' @param dat A data.frame with the training data.
+#' @param perc.o Percentage for Oversampling via SMOTE, i.e. percentage of extreme cases to be generated. Default is 1.5.
+#' @param rel.thr Relevance threshold. Default is 0.9.
+#' @param k Number of neighbours used in SMOTE. Defaults to 3.
+#' @param pc Relevance function phi.
+#'
+#' @return
+#' @export
+#'
+#' @importFrom UBL phi.control SmoteRegress
+#' @importFrom robustbase adjboxStats
+#'
+#' @examples
+#'
+#' require(robustbase)
+#'
+#' data(Boston,package="MASS")
+#'
+#' idx <- sample(1:nrow(Boston),nrow(Boston)*0.75)
+#' form <- medv ~ .
+#'
+#' train <- Boston[idx,]
+#'
+#' new.train <- adaSMOTE(form,train)
+#'
+#' adjbox(train$medv)
+#' adjbox(new.train$medv)
+
+adaSMOTE <- function(form,dat,perc.o=1.5,rel.thr,k,pc=NULL) {
 
   require(UBL)
 
@@ -15,7 +46,7 @@ adaSMOTE <- function(form,dat,perc.o,rel.thr,k,pc=NULL) {
     percs <- list()
 
     if(pc$control.pts[2]==1) {
-      if(length(boxplot.stats(y)$out<=pc$control.pts[1]) > 1) {
+      if(length(adjboxStats(y)$out<=pc$control.pts[1]) > 1) {
         percs <- c(percs,perc.o)
       } else {
         percs <- c(percs,1)
@@ -25,7 +56,7 @@ adaSMOTE <- function(form,dat,perc.o,rel.thr,k,pc=NULL) {
     percs <- c(percs,1)
 
     if(pc$control.pts[8]==1) {
-      if(length(boxplot.stats(y)$out>=pc$control.pts[7]) > 1) {
+      if(length(adjboxStats(y)$out>=pc$control.pts[7]) > 1) {
         percs <- c(percs,perc.o)
       } else {
         percs <- c(percs,1)
@@ -34,11 +65,11 @@ adaSMOTE <- function(form,dat,perc.o,rel.thr,k,pc=NULL) {
 
     if(any(sapply(dat,is.numeric)==FALSE)){ #If there's any nominal predictor, use HEOM distance
 
-      new.dat <- SmoteRegress(form,dat,rel=pc,thr.rel=rel.thr,C.perc=percs,k=k,dist="HEOM")
+      new.dat <- UBL::SmoteRegress(form,dat,rel=pc,thr.rel=rel.thr,C.perc=percs,k=k,dist="HEOM")
 
     } else { #If all predictors are numerical, use Euclidean distance
 
-      new.dat <- SmoteRegress(form,dat,rel=pc,thr.rel=rel.thr,C.perc=percs,k=k,dist="Euclidean")
+      new.dat <- UBL::SmoteRegress(form,dat,rel=pc,thr.rel=rel.thr,C.perc=percs,k=k,dist="Euclidean")
 
     }
 
