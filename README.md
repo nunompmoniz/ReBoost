@@ -8,7 +8,7 @@ This package encompasses multiple resampling-based boosting strategies for the t
 
 **References**
 
-- N Moniz, R Ribeiro, V Cerqueira, N Chawla (2018). "SMOTEBoost for Regression: Improving the Prediction of Extreme Values", Proceedings of the 2018 IEEE 5th International Conference on Data Science and Advanced Analytics.
+- Nuno Moniz, Rita Ribeiro, Vítor Cerqueira, Nitesh Chawla (2018). "SMOTEBoost for Regression: Improving the Prediction of Extreme Values", Proceedings of the 2018 IEEE 5th International Conference on Data Science and Advanced Analytics.
 
 **To install from github use the following command lines in R:**
 
