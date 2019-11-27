@@ -36,7 +36,7 @@ adaSMOTE <- function(form,dat,perc.o=1.5,rel.thr,k,pc=NULL) {
   y <- dat[,as.character(form[[2]])]
 
   if(length(pc)!=3) {
-    pc <- UBL::phi.control(y = y,method = "extremes",coef=1.5)
+    pc <- IRon::phi.control(y = y,method = "extremes",coef=1.5)
   }
 
   pc.out <- pc.m <- matrix(pc$control.pts,nrow = (length(pc$control.pts)/3),ncol = 3,byrow = TRUE)
@@ -48,21 +48,30 @@ adaSMOTE <- function(form,dat,perc.o=1.5,rel.thr,k,pc=NULL) {
     percs <- list()
 
     if(nrow(pc.out)==3) {
+
       if(pc.out[1,2]==1) {
 
         if(sum(y<=pc.out[1,1]) >= 1) {
+
           percs <- c(percs,perc.o)
+
         } else {
+
           pc.m <- pc.m[-1,]
+
         }
       }
 
       percs <- c(percs,1)
 
       if(pc.out[3,2]==1) {
+
         if(sum(y>=pc.out[3,1]) >= 1) {
+
           percs <- c(percs,perc.o)
+
         } else {
+
           pc.m <- pc.m[-3,]
         }
       }
@@ -71,24 +80,33 @@ adaSMOTE <- function(form,dat,perc.o=1.5,rel.thr,k,pc=NULL) {
       if(pc.m[1,2]==1) {
 
         if(sum(y<=pc.m[1,1]) >= 1) {
+
           percs <- c(percs,perc.o)
+
         } else {
+
           percs <- c(percs,1)
         }
 
       } else {
+
         percs <- c(percs,1)
       }
 
       if(pc.m[2,2]==1) {
 
         if(sum(y>=pc.m[2,1]) >= 1) {
+
           percs <- c(percs,perc.o)
+
         } else {
+
           percs <- c(percs,1)
+
         }
 
       } else {
+
         percs <- c(percs,1)
       }
 
@@ -109,6 +127,7 @@ adaSMOTE <- function(form,dat,perc.o=1.5,rel.thr,k,pc=NULL) {
         rnd.col <- as.numeric(which(colnames(dat)==sample(num.colname,1)))
 
         if(nrow(unique(dat.high))==1 & nrow(dat.high)>1) {
+
           dat[which(y>=pc$control.pts[7]),rnd.col] <- rnorm(n=nrow(dat.high),mean = dat.high[1,rnd.col],sd = 0.001)
           dat[which(y>=pc$control.pts[7]),tgt] <- rnorm(n=nrow(dat.high),mean = dat.high[1,tgt],sd = 0.001)
         }
@@ -122,8 +141,6 @@ adaSMOTE <- function(form,dat,perc.o=1.5,rel.thr,k,pc=NULL) {
         rm(dat.high,dat.low,rnd.col)
 
       } else {
-
-
 
       }
 
