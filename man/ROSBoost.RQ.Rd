@@ -4,8 +4,17 @@
 \alias{ROSBoost.RQ}
 \title{ROSBoost variant of AdaBoost.RQ}
 \usage{
-ROSBoost.RQ(form, train, test, t_final = 100, power = 2,
-  perc.O = 1.5, rel.thr = 0.9, coef = 1.5, ...)
+ROSBoost.RQ(
+  form,
+  train,
+  test,
+  t_final = 100,
+  power = 2,
+  perc.O = 1.5,
+  rel.thr = 0.9,
+  coef = 1.5,
+  ...
+)
 }
 \arguments{
 \item{form}{The model formula.}

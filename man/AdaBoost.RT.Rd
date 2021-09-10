@@ -4,8 +4,7 @@
 \alias{AdaBoost.RT}
 \title{AdaBoost.RT}
 \usage{
-AdaBoost.RT(form, train, test, t_final = 100, thr = 0.1, power = 2,
-  ...)
+AdaBoost.RT(form, train, test, t_final = 100, thr = 0.1, power = 2, ...)
 }
 \arguments{
 \item{form}{The model formula.}

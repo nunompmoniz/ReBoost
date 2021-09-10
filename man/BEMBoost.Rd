@@ -35,9 +35,6 @@ train <- Boston[idx,]
 test <- Boston[-idx,]
 
 preds <- BEMBoost(form,train,test)
-Snippet
-For situations where the ad-hoc big error margin is too large,
-This snippet reduces it by half until the BEM error count is more than zero.
 }
 \references{
 

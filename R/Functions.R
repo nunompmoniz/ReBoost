@@ -13,7 +13,7 @@
 #' @export
 #'
 #' @importFrom rpart rpart
-#' @importFrom spatstat weighted.median
+#' @importFrom robustbase wgt.himedian
 #'
 #' @examples
 #' data(Boston,package="MASS")
@@ -29,7 +29,7 @@
 AdaBoost.R2 <- function(form,train,test,t_final=100,power=2,...) {
 
   require(rpart)
-  require(spatstat)
+  require(robustbase)
 
   models <- list()
   betas <- c()
@@ -77,7 +77,7 @@ AdaBoost.R2 <- function(form,train,test,t_final=100,power=2,...) {
 
   finalpreds <- c()
   for(i in 1:nrow(pred.mat)) {
-    finalpreds <- c(finalpreds,weighted.median(pred.mat[i,],unlist(betas)))
+    finalpreds <- c(finalpreds,wgt.himedian(pred.mat[i,],unlist(betas)))
   }
 
   names(finalpreds) <- rownames(test)
@@ -103,7 +103,7 @@ AdaBoost.R2 <- function(form,train,test,t_final=100,power=2,...) {
 #' @export
 #'
 #' @importFrom rpart rpart
-#' @importFrom spatstat weighted.median
+#' @importFrom robustbase wgt.himedian
 #' @importFrom IRon phi.control
 #'
 #' @examples
@@ -120,7 +120,7 @@ AdaBoost.R2 <- function(form,train,test,t_final=100,power=2,...) {
 SMOTEBoost.R2 <- function(form,train,test,t_final=100,power=2,perc.O=1.5,rel.thr=0.9,k=3,coef=1.5,...) {
 
   require(rpart)
-  require(spatstat)
+  require(robustbase)
   require(IRon)
 
   models <- list()
@@ -175,7 +175,7 @@ SMOTEBoost.R2 <- function(form,train,test,t_final=100,power=2,perc.O=1.5,rel.thr
 
   finalpreds <- c()
   for(i in 1:nrow(pred.mat)) {
-    finalpreds <- c(finalpreds,weighted.median(pred.mat[i,],unlist(betas)))
+    finalpreds <- c(finalpreds,wgt.himedian(pred.mat[i,],unlist(betas)))
   }
 
   names(finalpreds) <- rownames(test)
@@ -202,7 +202,7 @@ SMOTEBoost.R2 <- function(form,train,test,t_final=100,power=2,perc.O=1.5,rel.thr
 #' @importFrom UBL RandUnderRegress
 #' @importFrom IRon phi.control
 #' @importFrom rpart rpart
-#' @importFrom spatstat weighted.median
+#' @importFrom robustbase wgt.himedian
 #'
 #' @examples
 #' data(Boston,package="MASS")
@@ -217,7 +217,7 @@ SMOTEBoost.R2 <- function(form,train,test,t_final=100,power=2,perc.O=1.5,rel.thr
 #'
 RUSBoost.R2 <- function(form,train,test,t_final=100,power=2,perc.U=0.9,rel.thr=0.9,coef=1.5,...) {
 
-  require(spatstat)
+  require(robustbase)
   require(rpart)
   require(UBL)
   require(IRon)
@@ -274,7 +274,7 @@ RUSBoost.R2 <- function(form,train,test,t_final=100,power=2,perc.U=0.9,rel.thr=0
 
   finalpreds <- c()
   for(i in 1:nrow(pred.mat)) {
-    finalpreds <- c(finalpreds,weighted.median(pred.mat[i,],unlist(betas)))
+    finalpreds <- c(finalpreds,wgt.himedian(pred.mat[i,],unlist(betas)))
   }
 
   names(finalpreds) <- rownames(test)
@@ -301,7 +301,7 @@ RUSBoost.R2 <- function(form,train,test,t_final=100,power=2,perc.U=0.9,rel.thr=0
 #' @importFrom UBL RandOverRegress
 #' @importFrom IRon phi.control
 #' @importFrom rpart rpart
-#' @importFrom spatstat weighted.median
+#' @importFrom robustbase wgt.himedian
 #'
 #' @examples
 #' data(Boston,package="MASS")
@@ -316,7 +316,7 @@ RUSBoost.R2 <- function(form,train,test,t_final=100,power=2,perc.U=0.9,rel.thr=0
 #'
 ROSBoost.R2 <- function(form,train,test,t_final=100,power=2,perc.O=1.5,rel.thr=0.9,coef=1.5,...) {
 
-  require(spatstat)
+  require(robustbase)
   require(rpart)
   require(UBL)
   require(IRon)
@@ -340,7 +340,7 @@ ROSBoost.R2 <- function(form,train,test,t_final=100,power=2,perc.O=1.5,rel.thr=0
     train.ind <- sample(1:n,n,replace=TRUE,prob=weights)
     new.train <- train[train.ind,]
 
-    new.train <- UBL::RandOverRegress(form,new.train,pc,rel.thr,perc.O)
+    new.train <- UBL::RandOverRegress(form,new.train,pc,rel.thr,C.perc = list(perc.O))
 
     m <- rpart(form,new.train,...)
 
@@ -373,7 +373,7 @@ ROSBoost.R2 <- function(form,train,test,t_final=100,power=2,perc.O=1.5,rel.thr=0
 
   finalpreds <- c()
   for(i in 1:nrow(pred.mat)) {
-    finalpreds <- c(finalpreds,weighted.median(pred.mat[i,],unlist(betas)))
+    finalpreds <- c(finalpreds,wgt.himedian(pred.mat[i,],unlist(betas)))
   }
 
   names(finalpreds) <- rownames(test)
@@ -455,12 +455,11 @@ AdaBoost.RQ <- function(form,train,test,t_final=100,power=2,...) {
 
     preds <- predict(models[[t]],test)
     pred.mat <- cbind(pred.mat,preds)
-    num <- num + (log(1/betas[t]) * preds)
-
+    num <- num + (log(1/betas[[t]]) * preds)
 
   }
 
-  finalpreds <- num/sum(log(1/betas))
+  finalpreds <- num/sum(log(1/unlist(betas)))
 
   names(finalpreds) <- rownames(test)
 
@@ -549,12 +548,12 @@ SMOTEBoost.RQ <- function(form,train,test,t_final=100,power=2,perc.O=1.5,rel.thr
 
     preds <- predict(models[[t]],test)
     pred.mat <- cbind(pred.mat,preds)
-    num <- num + (log(1/betas[t]) * preds)
+    num <- num + (log(1/betas[[t]]) * preds)
 
 
   }
 
-  finalpreds <- num/sum(log(1/betas))
+  finalpreds <- num/sum(log(1/unlist(betas)))
 
   names(finalpreds) <- rownames(test)
 
@@ -644,12 +643,12 @@ RUSBoost.RQ <- function(form,train,test,t_final=100,power=2,perc.U=0.9,rel.thr=0
 
     preds <- predict(models[[t]],test)
     pred.mat <- cbind(pred.mat,preds)
-    num <- num + (log(1/betas[t]) * preds)
+    num <- num + (log(1/betas[[t]]) * preds)
 
 
   }
 
-  finalpreds <- num/sum(log(1/betas))
+  finalpreds <- num/sum(log(1/unlist(betas)))
 
   names(finalpreds) <- rownames(test)
 
@@ -713,7 +712,7 @@ ROSBoost.RQ <- function(form,train,test,t_final=100,power=2,perc.O=1.5,rel.thr=0
     train.ind <- sample(1:n,n,replace=TRUE,prob=weights)
     new.train <- train[train.ind,]
 
-    new.train <- UBL::RandOverRegress(form,new.train,pc,rel.thr,perc.O)
+    new.train <- UBL::RandOverRegress(form,new.train,pc,rel.thr,C.perc=list(perc.O))
 
     m <- rpart(form,new.train,...)
 
@@ -739,12 +738,12 @@ ROSBoost.RQ <- function(form,train,test,t_final=100,power=2,perc.O=1.5,rel.thr=0
 
     preds <- predict(models[[t]],test)
     pred.mat <- cbind(pred.mat,preds)
-    num <- num + (log(1/betas[t]) * preds)
+    num <- num + (log(1/betas[[t]]) * preds)
 
 
   }
 
-  finalpreds <- num/sum(log(1/betas))
+  finalpreds <- num/sum(log(1/unlist(betas)))
 
   names(finalpreds) <- rownames(test)
 
@@ -821,11 +820,11 @@ AdaBoost.RT <- function(form,train,test,t_final=100,thr=0.1,power=2,...) {
 
     preds <- predict(models[[t]],test)
     pred.mat <- cbind(pred.mat,preds)
-    num <- num + (log(1/betas[t]) * preds)
+    num <- num + (log(1/betas[[t]]) * preds)
 
   }
 
-  finalpreds <- num/sum(log(1/betas))
+  finalpreds <- num/sum(log(1/unlist(betas)))
 
   names(finalpreds) <- rownames(test)
 
@@ -912,11 +911,11 @@ SMOTEBoost.RT <- function(form,train,test,t_final=100,thr=0.1,power=2,perc.O=1.5
 
     preds <- predict(models[[t]],test)
     pred.mat <- cbind(pred.mat,preds)
-    num <- num + (log(1/betas[t]) * preds)
+    num <- num + (log(1/betas[[t]]) * preds)
 
   }
 
-  finalpreds <- num/sum(log(1/betas))
+  finalpreds <- num/sum(log(1/unlist(betas)))
 
   names(finalpreds) <- rownames(test)
 
@@ -1004,11 +1003,11 @@ RUSBoost.RT <- function(form,train,test,t_final=100,thr=0.1,power=2,perc.U=0.9,r
 
     preds <- predict(models[[t]],test)
     pred.mat <- cbind(pred.mat,preds)
-    num <- num + (log(1/betas[t]) * preds)
+    num <- num + (log(1/betas[[t]]) * preds)
 
   }
 
-  finalpreds <- num/sum(log(1/betas))
+  finalpreds <- num/sum(log(1/unlist(betas)))
 
   names(finalpreds) <- rownames(test)
 
@@ -1072,7 +1071,7 @@ ROSBoost.RT <- function(form,train,test,t_final=100,thr=0.1,power=2,perc.O=1.5,r
     train.ind <- sample(1:n,n,replace=TRUE,prob=weights)
     new.train <- train[train.ind,]
 
-    new.train <- UBL::RandOverRegress(form,new.train,pc,rel.thr,perc.O)
+    new.train <- UBL::RandOverRegress(form,new.train,pc,rel.thr,C.perc=list(perc.O))
 
     m <- rpart(form,new.train,...)
 
@@ -1096,11 +1095,11 @@ ROSBoost.RT <- function(form,train,test,t_final=100,thr=0.1,power=2,perc.O=1.5,r
 
     preds <- predict(models[[t]],test)
     pred.mat <- cbind(pred.mat,preds)
-    num <- num + (log(1/betas[t]) * preds)
+    num <- num + (log(1/betas[[t]]) * preds)
 
   }
 
-  finalpreds <- num/sum(log(1/betas))
+  finalpreds <- num/sum(log(1/unlist(betas)))
 
   names(finalpreds) <- rownames(test)
 
@@ -1466,7 +1465,7 @@ ROSBoost.RTPlus <- function(form,train,test,t_final=100,thr=0.01,power=2,sigma=0
     train.ind <- sample(1:n,n,replace=TRUE,prob=weights)
     new.train <- train[train.ind,]
 
-    new.train <- UBL::RandOverRegress(form,new.train,pc,rel.thr,perc.O)
+    new.train <- UBL::RandOverRegress(form,new.train,pc,rel.thr,C.perc=list(perc.O))
 
     m <- rpart(form,new.train,...)
 
@@ -1563,9 +1562,6 @@ BEMBoost <- function(form,train,test,t_final=100,BEM=0.5,...) {
     grtBEM <- ae>BEM
     errCnt <- sum(grtBEM)
 
-    #' Snippet
-    #' For situations where the ad-hoc big error margin is too large,
-    #' This snippet reduces it by half until the BEM error count is more than zero.
     if(t==1 & errCnt==0) {
 
       while(errCnt==0) {
@@ -1674,9 +1670,6 @@ SMOTEBoost.BEM <- function(form,train,test,t_final=100,BEM=0.5,perc.O=1.5,rel.th
     grtBEM <- ae>BEM
     errCnt <- sum(grtBEM)
 
-    #' Snippet
-    #' For situations where the ad-hoc big error margin is too large,
-    #' This snippet reduces it by half until the BEM error count is more than zero.
     if(t==1 & errCnt==0) {
 
       while(errCnt==0) {
@@ -1786,9 +1779,6 @@ RUSBoost.BEM <- function(form,train,test,t_final=100,BEM=0.5,perc.U=0.9,rel.thr=
     grtBEM <- ae>BEM
     errCnt <- sum(grtBEM)
 
-    #' Snippet
-    #' For situations where the ad-hoc big error margin is too large,
-    #' This snippet reduces it by half until the BEM error count is more than zero.
     if(t==1 & errCnt==0) {
 
       while(errCnt==0) {
@@ -1885,7 +1875,7 @@ ROSBoost.BEM <- function(form,train,test,t_final=100,BEM=0.5,perc.O=1.5,rel.thr=
     train.ind <- sample(1:n,n,replace=TRUE,prob=weights)
     new.train <- train[train.ind,]
 
-    new.train <- UBL::RandOverRegress(form,new.train,pc,rel.thr,perc.O)
+    new.train <- UBL::RandOverRegress(form,new.train,pc,rel.thr,C.perc=list(perc.O))
 
     m <- rpart(form,new.train,...)
 
@@ -1898,9 +1888,6 @@ ROSBoost.BEM <- function(form,train,test,t_final=100,BEM=0.5,perc.O=1.5,rel.thr=
     grtBEM <- ae>BEM
     errCnt <- sum(grtBEM)
 
-    #' Snippet
-    #' For situations where the ad-hoc big error margin is too large,
-    #' This snippet reduces it by half until the BEM error count is more than zero.
     if(t==1 & errCnt==0) {
 
       while(errCnt==0) {

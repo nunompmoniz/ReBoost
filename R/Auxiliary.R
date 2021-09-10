@@ -8,27 +8,13 @@
 #' @param pc Relevance function phi.
 #'
 #' @return Return a data frame with the data set results from the application of the SMOTE strategy
-#' @export
+#'
+#' @noRd
 #'
 #' @importFrom IRon phi.control
 #' @importFrom UBL SmoteRegress
 #' @importFrom robustbase adjboxStats
-#'
-#' @examples
-#'
-#' require(robustbase)
-#'
-#' data(Boston,package="MASS")
-#'
-#' idx <- sample(1:nrow(Boston),nrow(Boston)*0.75)
-#' form <- medv ~ .
-#'
-#' train <- Boston[idx,]
-#'
-#' new.train <- adaSMOTE(form,train)
-#'
-#' adjbox(train$medv)
-#' adjbox(new.train$medv)
+#' @importFrom stats rnorm predict
 adaSMOTE <- function(form,dat,perc.o=1.5,rel.thr,k,pc=NULL) {
 
   require(UBL)
@@ -115,7 +101,7 @@ adaSMOTE <- function(form,dat,perc.o=1.5,rel.thr,k,pc=NULL) {
     if(length(percs)>1) {
 
       #' Snippet: SMOTE requires distinct cases. If there's only one case and its repetitions,
-      #' We randomly select a numerical column (except for the target) and add Gaussian noise (sd=0.001)
+      #' We randomly select a numerical column - except for the target - and add Gaussian noise (sd=0.001)
 
       if(nrow(pc.out)==3) {
 
@@ -144,7 +130,7 @@ adaSMOTE <- function(form,dat,perc.o=1.5,rel.thr,k,pc=NULL) {
 
       }
 
-      #' End of snippet
+      # End of snippet
 
       if(any(sapply(dat,is.numeric)==FALSE)){ #If there's any nominal predictor, use HEOM distance
 

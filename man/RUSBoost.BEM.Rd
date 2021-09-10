@@ -4,8 +4,17 @@
 \alias{RUSBoost.BEM}
 \title{RUSBoost variant of BEMBoost}
 \usage{
-RUSBoost.BEM(form, train, test, t_final = 100, BEM = 0.5,
-  perc.U = 0.9, rel.thr = 0.9, coef = 1.5, ...)
+RUSBoost.BEM(
+  form,
+  train,
+  test,
+  t_final = 100,
+  BEM = 0.5,
+  perc.U = 0.9,
+  rel.thr = 0.9,
+  coef = 1.5,
+  ...
+)
 }
 \arguments{
 \item{form}{The model formula.}
@@ -43,7 +52,4 @@ test <- Boston[-idx,]
 
 preds <- RUSBoost.BEM(form,train,test)
 
-Snippet
-For situations where the ad-hoc big error margin is too large,
-This snippet reduces it by half until the BEM error count is more than zero.
 }

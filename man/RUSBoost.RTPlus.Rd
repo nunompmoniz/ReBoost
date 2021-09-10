@@ -4,9 +4,19 @@
 \alias{RUSBoost.RTPlus}
 \title{RUSBoost variant of AdaBoost.RTPlus}
 \usage{
-RUSBoost.RTPlus(form, train, test, t_final = 100, thr = 0.01,
-  power = 2, sigma = 0.5, perc.U = 0.9, rel.thr = 0.9,
-  coef = 1.5, ...)
+RUSBoost.RTPlus(
+  form,
+  train,
+  test,
+  t_final = 100,
+  thr = 0.01,
+  power = 2,
+  sigma = 0.5,
+  perc.U = 0.9,
+  rel.thr = 0.9,
+  coef = 1.5,
+  ...
+)
 }
 \arguments{
 \item{form}{The model formula.}

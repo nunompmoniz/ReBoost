@@ -4,8 +4,18 @@
 \alias{SMOTEBoost.R2}
 \title{SMOTEBoost variant of AdaBoost.R2}
 \usage{
-SMOTEBoost.R2(form, train, test, t_final = 100, power = 2,
-  perc.O = 1.5, rel.thr = 0.9, k = 3, coef = 1.5, ...)
+SMOTEBoost.R2(
+  form,
+  train,
+  test,
+  t_final = 100,
+  power = 2,
+  perc.O = 1.5,
+  rel.thr = 0.9,
+  k = 3,
+  coef = 1.5,
+  ...
+)
 }
 \arguments{
 \item{form}{The model formula.}

@@ -4,8 +4,19 @@
 \alias{SMOTEBoost.RT}
 \title{SMOTEBoost variant of AdaBoost.RT}
 \usage{
-SMOTEBoost.RT(form, train, test, t_final = 100, thr = 0.1, power = 2,
-  perc.O = 1.5, rel.thr = 0.9, k = 3, coef = 1.5, ...)
+SMOTEBoost.RT(
+  form,
+  train,
+  test,
+  t_final = 100,
+  thr = 0.1,
+  power = 2,
+  perc.O = 1.5,
+  rel.thr = 0.9,
+  k = 3,
+  coef = 1.5,
+  ...
+)
 }
 \arguments{
 \item{form}{The model formula.}

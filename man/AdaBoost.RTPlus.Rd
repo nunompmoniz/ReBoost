@@ -4,8 +4,16 @@
 \alias{AdaBoost.RTPlus}
 \title{AdaBoost.RTPlus}
 \usage{
-AdaBoost.RTPlus(form, train, test, t_final = 100, thr = 0.01,
-  power = 2, sigma = 0.5, ...)
+AdaBoost.RTPlus(
+  form,
+  train,
+  test,
+  t_final = 100,
+  thr = 0.01,
+  power = 2,
+  sigma = 0.5,
+  ...
+)
 }
 \arguments{
 \item{form}{The model formula.}
